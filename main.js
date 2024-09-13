@@ -1,3 +1,4 @@
+require('dotenv').config();
 const axios = require('axios');
 
 async function myFunction() {
@@ -13,7 +14,7 @@ async function myFunction() {
 
   // URL を組み立てる
   const url = `https://api.docbase.io/teams/u001/posts?q=title:第2開発_Cチーム朝会_${formattedDate}`;
-  const token = 'MM21sxzahoPhnUGd7jmzkk3bwz9G4duaMANpsodDGt3y6Xvh2LM81NUH8zv2Pzsy';
+  const token = process.env.DOCBASE_TOKEN;
 
   try {
     // API リクエストを行う
