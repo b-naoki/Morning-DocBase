@@ -1,0 +1,24 @@
+name: Run JavaScript Script
+
+on:
+  schedule:
+    - cron: '30 8 * * *'  # UTC時間で毎日8:30に実行
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'  # 使用する Node.js のバージョンを指定します。必要に応じて変更してください。
+      
+    - name: Install dependencies
+      run: npm install
+      
+    - name: Run script
+      run: node main.js  # main.js を実行します。
