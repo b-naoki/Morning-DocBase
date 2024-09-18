@@ -1,4 +1,4 @@
-// require('dotenv').config();
+require('dotenv').config();
 const axios = require('axios');
 
 // 前営業日を取得する関数
@@ -29,6 +29,29 @@ function getPreviousBusinessDay(today) {
   return today;
 }
 
+// 次の営業日を取得する関数
+function getNextBusinessDay(date) {
+  // 新しいDateオブジェクトを作成
+  const nextDay = new Date(date);
+
+  // 曜日情報を取得（日曜: 0, 土曜: 6）
+  const dayOfWeek = nextDay.getDay();
+
+  // 次の日を設定
+  nextDay.setDate(nextDay.getDate() + 1);
+
+  // 次の日が土曜または日曜の場合、平日まで調整
+  if (dayOfWeek === 5) { // 金曜日の場合、2日後の月曜日
+    nextDay.setDate(nextDay.getDate() + 2);
+  } else if (dayOfWeek === 6) { // 土曜日の場合、1日後の月曜日
+    nextDay.setDate(nextDay.getDate() + 2);
+  } else if (dayOfWeek === 0) { // 日曜日の場合、1日後の月曜日
+    nextDay.setDate(nextDay.getDate() + 1);
+  }
+
+  return nextDay;
+}
+
 // 日付を YYYYMMDD 形式にフォーマットする関数
 function formatDate(date) {
   const yyyy = date.getFullYear();
@@ -44,8 +67,13 @@ async function myFunction() {
   const previousBusinessDay = getPreviousBusinessDay(new Date(today)); // 前営業日を取得
   const formattedDate = formatDate(previousBusinessDay);
 
+  // 次の営業日を取得して、フォーマット変更し、新しいタイトルを作成
+  const nextBusinessDay = getNextBusinessDay(previousBusinessDay);
+  const nextFormattedDate = formatDate(nextBusinessDay);
+  const newTitle = `第2開発_Cチーム朝会_${nextFormattedDate}`;
+
   // URL を組み立てる
-  const url = `https://api.docbase.io/teams/u001/posts?q=title:第2開発 Cチーム朝会_${formattedDate}`;
+  const url = `https://api.docbase.io/teams/u001/posts?q=title:第2開発_Cチーム朝会_${formattedDate}`;
   const token = process.env.DOCBASE_TOKEN;
 
   try {
@@ -61,21 +89,6 @@ async function myFunction() {
 
     // 最初のポストを取得
     const post = data.posts[0];
-
-    // 現在のタイトルから日付を +1 日する
-    const currentTitle = post.title;
-    const currentDateStr = currentTitle.match(/(\d{8})$/)[0]; // 末尾の YYYYMMDD を抽出
-    const currentDate = new Date(
-      `${currentDateStr.slice(0, 4)}-${currentDateStr.slice(4, 6)}-${currentDateStr.slice(6, 8)}`
-    );
-    const nextDay = new Date(currentDate.setDate(currentDate.getDate() + 1));
-    
-    const yyyyNext = nextDay.getFullYear();
-    const mmNext = String(nextDay.getMonth() + 1).padStart(2, '0');
-    const ddNext = String(nextDay.getDate()).padStart(2, '0');
-    const newDateStr = `${yyyyNext}${mmNext}${ddNext}`;
-    
-    const newTitle = currentTitle.replace(/(\d{8})$/, newDateStr);
 
     const body = post.body;
     const draft = post.draft;
