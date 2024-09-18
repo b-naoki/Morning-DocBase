@@ -13,7 +13,7 @@ async function myFunction() {
   const formattedDate = `${yyyy}${mm}${dd}`;
 
   // URL を組み立てる
-  const url = `https://api.docbase.io/teams/u001/posts?q=title:第2開発_Cチーム朝会_${formattedDate}`;
+  const url = `https://api.docbase.io/teams/u001/posts?q=title:第2開発 Cチーム朝会_${formattedDate}`;
   const token = process.env.DOCBASE_TOKEN;
 
   try {
