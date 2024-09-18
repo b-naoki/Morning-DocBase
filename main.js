@@ -1,16 +1,48 @@
 // require('dotenv').config();
 const axios = require('axios');
 
+// 前営業日を取得する関数
+function getPreviousBusinessDay(today) {
+  if (!(today instanceof Date)) {
+    throw new TypeError('Argument must be a Date object');
+  }
+
+  const dayOfWeek = today.getDay();
+
+  // 今日が月曜なら、前の金曜日（3日前）を取得
+  if (dayOfWeek === 1) {
+    today.setDate(today.getDate() - 3);
+  }
+  // 今日が日曜なら、前の金曜日（2日前）を取得
+  else if (dayOfWeek === 0) {
+    today.setDate(today.getDate() - 2);
+  }
+  // 今日が土曜なら、前の金曜日（1日前）を取得
+  else if (dayOfWeek === 6) {
+    today.setDate(today.getDate() - 1);
+  }
+  // 平日なら1日前を取得
+  else {
+    today.setDate(today.getDate() - 1);
+  }
+
+  return today;
+}
+
+// 日付を YYYYMMDD 形式にフォーマットする関数
+function formatDate(date) {
+  const yyyy = date.getFullYear();
+  const mm = String(date.getMonth() + 1).padStart(2, '0');
+  const dd = String(date.getDate()).padStart(2, '0');
+  return `${yyyy}${mm}${dd}`;
+}
+
+// メイン処理
 async function myFunction() {
-  // 昨日の日付を取得する。
-  const today = new Date();
-  const yesterday = new Date(today.setDate(today.getDate() - 1));
-  
-  // 日付を YYYYMMDD 形式でフォーマットする
-  const yyyy = yesterday.getFullYear();
-  const mm = String(yesterday.getMonth() + 1).padStart(2, '0'); // 月は0から始まるので+1
-  const dd = String(yesterday.getDate()).padStart(2, '0');
-  const formattedDate = `${yyyy}${mm}${dd}`;
+  // 今日の日付を設定し、前営業日を取得する
+  const today = new Date(); // 今日の日付
+  const previousBusinessDay = getPreviousBusinessDay(new Date(today)); // 前営業日を取得
+  const formattedDate = formatDate(previousBusinessDay);
 
   // URL を組み立てる
   const url = `https://api.docbase.io/teams/u001/posts?q=title:第2開発 Cチーム朝会_${formattedDate}`;
@@ -39,7 +71,7 @@ async function myFunction() {
     const nextDay = new Date(currentDate.setDate(currentDate.getDate() + 1));
     
     const yyyyNext = nextDay.getFullYear();
-    const mmNext = String(nextDay.getMonth() + 1).padStart(2, '0'); // 月は0から始まるので+1
+    const mmNext = String(nextDay.getMonth() + 1).padStart(2, '0');
     const ddNext = String(nextDay.getDate()).padStart(2, '0');
     const newDateStr = `${yyyyNext}${mmNext}${ddNext}`;
     
@@ -49,15 +81,6 @@ async function myFunction() {
     const draft = post.draft;
     const scope = post.scope;
     const tags = post.tags.map(tag => tag.name);
-
-    // 各項目をコンソールに出力
-    console.log('変更前のTitle:', currentTitle);
-    console.log('変更後のTitle:', newTitle);     
-    console.log('Body:', body);
-    console.log('Draft:', draft);
-    console.log('Tags:', tags);
-    console.log('Tags:', tags);
-    console.log('Scope:', scope);
 
     // 新規投稿を作成する
     const postUrl = 'https://api.docbase.io/teams/u001/posts';
@@ -87,4 +110,5 @@ async function myFunction() {
   }
 }
 
+// メイン処理を実行
 myFunction();
