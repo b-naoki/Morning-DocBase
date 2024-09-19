@@ -60,6 +60,27 @@ function formatDate(date) {
   return `${yyyy}${mm}${dd}`;
 }
 
+// 本日が営業日かどうかを判定する関数
+function isBusinessDay(date) {
+  const dayOfWeek = date.getDay();
+  // 土曜日（6）と日曜日（0）は営業日ではない
+  return dayOfWeek !== 0 && dayOfWeek !== 6;
+}
+
+// 営業日判定後の処理
+async function checkAndRun() {
+  // 今日の日付を設定
+  const today = new Date(); // 今日の日付
+
+  // 本日が営業日かどうかを判定
+  if (isBusinessDay(today)) {
+    console.log('本日は営業日です');
+    await myFunction(); // 本日が営業日ならmyFunctionを実行
+  } else {
+    console.log('本日は営業日ではありません');
+  }
+}
+
 // メイン処理
 async function myFunction() {
   // 今日の日付を設定し、前営業日を取得する
@@ -67,8 +88,11 @@ async function myFunction() {
   const previousBusinessDay = getPreviousBusinessDay(new Date(today)); // 前営業日を取得
   const formattedDate = formatDate(previousBusinessDay);
 
+  console.log('前営業日:', previousBusinessDay);
+
   // 次の営業日を取得して、フォーマット変更し、新しいタイトルを作成
   const nextBusinessDay = getNextBusinessDay(previousBusinessDay);
+  console.log('本日の営業日:', nextBusinessDay);
   const nextFormattedDate = formatDate(nextBusinessDay);
   const newTitle = `第2開発_Cチーム朝会_${nextFormattedDate}`;
 
@@ -123,5 +147,5 @@ async function myFunction() {
   }
 }
 
-// メイン処理を実行
-myFunction();
+// 営業日判定後の処理を実行
+checkAndRun();
