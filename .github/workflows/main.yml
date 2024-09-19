@@ -3,7 +3,7 @@ name: Run JavaScript Script
 on:
   workflow_dispatch:  # 手動実行を追加
   schedule:
-    - cron: '30 23 * * *'  # 日本時間8:30 (UTCの23:30に相当)
+    - cron: '30 21 * * *'  # 日本時間6:30 (UTCの21:30に相当)
 
 jobs:
   build:
