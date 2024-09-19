@@ -78,6 +78,7 @@ async function checkAndRun() {
     await myFunction(); // 本日が営業日ならmyFunctionを実行
   } else {
     console.log('本日は営業日ではありません');
+    return;
   }
 }
 
@@ -87,7 +88,6 @@ async function myFunction() {
   const today = new Date(); // 今日の日付
   const previousBusinessDay = getPreviousBusinessDay(new Date(today)); // 前営業日を取得
   const formattedDate = formatDate(previousBusinessDay);
-
   console.log('前営業日:', previousBusinessDay);
 
   // 次の営業日を取得して、フォーマット変更し、新しいタイトルを作成
