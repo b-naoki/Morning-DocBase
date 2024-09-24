@@ -6,5 +6,8 @@ GitHub Actionsは、リポジトリでデフォルトで有効になっていま
 ・左サイドバーの「Actions」セクションをクリックします。
 ・「Actions permissions」でAllow all actionsまたは制限付きの許可を選びます。
 
+# GitHub SettingsのSecrets and variablesを設定
+・Repository secretsを設定する。
+
 # ファイル実行
 node main.js
