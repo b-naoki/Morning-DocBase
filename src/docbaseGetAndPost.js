@@ -1,6 +1,6 @@
-const { formatDate } = require('./formatDate');
-const { getNextBusinessDay } = require('./getNextBusinessDay');
-const { getPreviousBusinessDay } = require('./getPreviousBusinessDay');
+const formatDate = require('./formatDate');
+const getNextBusinessDay = require('./getNextBusinessDay');
+const getPreviousBusinessDay = require('./getPreviousBusinessDay');
 const axios = require('axios');
 require('dotenv').config();
 
