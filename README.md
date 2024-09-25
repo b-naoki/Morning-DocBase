@@ -1,4 +1,5 @@
 # Morning-DocBase
+node src/main.js
 
 ## GitHub Seettings
 ・Settings > Secrets and variables > Actions > Repository secrets
