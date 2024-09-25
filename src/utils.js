@@ -1,36 +1,8 @@
 const { formatDate } = require('./formatDate');
 const { getNextBusinessDay } = require('./getNextBusinessDay');
-
-require('dotenv').config();
+const { getPreviousBusinessDay } = require('./getPreviousBusinessDay');
 const axios = require('axios');
-
-function getPreviousBusinessDay(today) {
-  if (!(today instanceof Date)) {
-    throw new TypeError('Argument must be a Date object');
-  }
-
-  // 今日が月曜なら、前の金曜日（3日前）を取得
-  if (today.getDay() === 1) {
-    today.setDate(today.getDate() - 3);
-  // それ以外なら1日前を取得
-  } else {
-    today.setDate(today.getDate() - 1);
-  }
-
-  return today;
-}
-
-function getNextBusinessDay(date) {
-  const nextDay = new Date(date);
-  nextDay.setDate(new Date(date).getDate() + 1);
-
-  // 金曜日の場合、2日後の月曜日
-  if (nextDay.getDay() === 5) {
-    nextDay.setDate(nextDay.getDate() + 2);
-  }
-
-  return nextDay;
-}
+require('dotenv').config();
 
 async function docbaseGetAndPost(today) {
 
@@ -81,8 +53,4 @@ async function docbaseGetAndPost(today) {
   }
 }
 
-module.exports = {
-    getPreviousBusinessDay,
-    getNextBusinessDay,
-    docbaseGetAndPost
-  };
+module.exports = docbaseGetAndPost;
