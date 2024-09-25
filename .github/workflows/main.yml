@@ -25,4 +25,4 @@ jobs:
       env:
         DOCBASE_TOKEN: ${{ secrets.DOCBASE_TOKEN }}  # 環境変数を追加
         TZ: 'Asia/Tokyo'  # タイムゾーンを設定
-      run: node main.js  # main.js を実行します。
+      run: node src/main.js  # main.js を実行します。

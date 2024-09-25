@@ -10,4 +10,4 @@ GitHub Actionsは、リポジトリでデフォルトで有効になっていま
 ・Repository secretsを設定する。
 
 # ファイル実行
-node main.js
+node src/main.js
