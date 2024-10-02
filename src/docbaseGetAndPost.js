@@ -10,7 +10,7 @@ async function docbaseGetAndPost(today) {
   console.log('前営業日:', previousBusinessDay);
   const formattedDate = formatDate(previousBusinessDay);
 
-  const url = `https://api.docbase.io/teams/u001/posts?q=title:第2開発_Cチーム朝会_${formattedDate}`;
+  const url = `https://api.docbase.io/teams/u001/posts?q=title:第2開発_グロースチーム朝会_${formattedDate}`;
   const token = process.env.DOCBASE_TOKEN;
 
   try {
@@ -26,7 +26,7 @@ async function docbaseGetAndPost(today) {
 
     const nextBusinessDay = getNextBusinessDay(previousBusinessDay);
     console.log('本日の営業日:', nextBusinessDay);
-    const newTitle = `第2開発_Cチーム朝会_${formatDate(today)}`;
+    const newTitle = `第2開発_グロースチーム朝会_${formatDate(today)}`;
 
     const postUrl = 'https://api.docbase.io/teams/u001/posts';
     const postData = {
